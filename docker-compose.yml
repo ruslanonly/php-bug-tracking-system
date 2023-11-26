@@ -3,23 +3,26 @@ version: "3"
 services:
   www:
     image: php:apache
+    build:
+      context: ./php
+      dockerfile: Dockerfile
     volumes:
-      - "./src:/var/www/html"
+      - "./php/src:/var/www/html"
     ports:
       - 80:80
       - 443:443
+    networks:
+      - mysql-phpmyadmin
   db:
     platform: linux/x86_64
-    image: mysql:5.7
+    image: mysql
     volumes:
       - db_data:/var/lib/mysql
     restart: always
     ports:
       - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: yourdb
-      MYSQL_PASSWORD: password
+    env_file:
+      - secrets.env
     networks:
       - mysql-phpmyadmin
   phpmyadmin:
@@ -29,9 +32,10 @@ services:
     restart: always
     ports:
       - "8090:80"
+    env_file:
+      - secrets.env
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: password
     networks:
       - mysql-phpmyadmin
 
