@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+@import url("../styles/variables.css");
+@import url("../styles/global.css");
+
+body {
+    background: var(--gray-200);
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    width: 100%;
+    margin: auto;
+    width: var(--container-width);
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: var(--header-h);
+    background: var(--gray-50);
+}
+
+.header__title {
+    margin: 0;
+    font-size: 20px;
+}
+
+.header__wrapper {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__left {
+    display: flex;
+    gap: 50px;
+}
+
+.header__logo-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header__logo {
+    width: 25px;
+    height: 25px;
+    background: var(--blue-500);
+    border-bottom-left-radius: 10px;
+}
+
+.header__tabs {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.header__tab {
+    color: var(--blue-950);
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-weight: 500;
+}
+
+.header__tab:hover {
+    background-color: var(--blue-100);
+}
+
+.header__tab:active {
+    background-color: var(--blue-300);
+}
+
+.header__tab.active {
+    background-color: var(--blue-200);
+}
+
+.main {
+    margin-top: calc(var(--header-h) + 20px);
+}

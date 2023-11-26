@@ -1,21 +1,52 @@
+<?php
+    $PHP_SELF = $_SERVER["PHP_SELF"];
+
+    $_TABS = array(
+        "reports" => "Отчеты",
+        "products" => "Продукты"
+    )
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($pageTitle) ? $pageTitle : "My Website"; ?></title>
-</head>
-<body>
-    <header>
-        <h1>Welcome to My Website</h1>
-    </header>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/shared/ui/layout.css">
+        <title><?php echo isset($meta_info) ? $meta_info["title"] : "Layout Title"; ?></title>
+    </head>
+    <body>
+        <header class="header">
+            <div class="header__wrapper container">
+                <div class="header__left">
+                    <a class="header__logo-title" href="/home.php">
+                        <div class="header__logo"></div>
+                        <h1 class="header__title">Bug Tracking System</h1>
+                    </a>
+                    <div class="header__tabs">
+                        <?php
+                            foreach($_TABS as $page => $name) {
+                                $activeClass = ("/".$page.".php" == $PHP_SELF) ? "active" : "";
+                                echo "
+                                    <a class=\"header__tab $activeClass\" href=\"/$page.php\">$name</a>
+                                ";
+                            }
+                        ?>
+                    </div>
+                </div>
+                
+            </div>
+        </header>
+        
 
-    <main>
-        <?php echo isset($content) ? $content : ""; ?>
-    </main>
-
-    <footer>
-        <p>&copy; <?php echo date("Y"); ?> My Website</p>
-    </footer>
-</body>
+        <main class="main">
+            <div class="main__wrapper container">
+                <?php
+                    $root = $_SERVER["DOCUMENT_ROOT"];
+                    $path = $root."/pages".$PHP_SELF;
+                    include $path;
+                ?>
+            </div>
+        </main>
+    </body>
 </html>

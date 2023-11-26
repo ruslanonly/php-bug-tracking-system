@@ -4,7 +4,7 @@
     $connection = $manager->getMySQLConnection();
 
     $meta_info = array(
-        "title" => "Home"
+        "title" => "Отчеты"
     );
 
     include "./shared/ui/layout.php";

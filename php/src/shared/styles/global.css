@@ -1,0 +1,14 @@
+* {
+    transition: color .1s ease, background-color .1s ease;
+}
+
+a {
+    text-decoration: none;
+    color: var(--gray-950);
+}
+
+.tile {
+    background-color: var(--gray-50);
+    border-radius: 45px;
+    padding: 45px;
+}
