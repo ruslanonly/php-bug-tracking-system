@@ -1,7 +1,10 @@
 <?php 
-    function getMetaInformation() {
+    function createPage() {
+
+    }
+    function createMetaInformation(string $title) {
         $meta_info = array(
-            "title" => "Home"
+            "title" => $title
         );
 
         return $meta_info;
