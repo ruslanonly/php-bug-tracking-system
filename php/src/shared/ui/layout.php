@@ -3,8 +3,9 @@
 
     $_TABS = array(
         "reports" => "Отчеты",
-        "products" => "Продукты"
-    )
+        "products" => "Продукты",
+        "companies" => "Компании"
+    );
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +14,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/shared/ui/layout.css">
+        <link rel="stylesheet" href="/pages/styles<?php echo str_replace('.php', '', $PHP_SELF); ?>.css">
         <title><?php echo isset($meta_info) ? $meta_info["title"] : "Layout Title"; ?></title>
     </head>
     <body>
@@ -42,8 +44,7 @@
         <main class="main">
             <div class="main__wrapper container">
                 <?php
-                    $root = $_SERVER["DOCUMENT_ROOT"];
-                    $path = $root."/pages".$PHP_SELF;
+                    $path = dirname(__DIR__)."../../pages".$PHP_SELF;
                     include $path;
                 ?>
             </div>

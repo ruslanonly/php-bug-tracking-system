@@ -1,0 +1,50 @@
+.select {
+    font-size: 14px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    display: block;
+    font-family: inherit;
+    height: 100%;
+    width: 100%;
+    padding: 7px 10px;
+    border-radius: 6px;
+    outline: none;
+    box-shadow: 0 0 0 1px var(--gray-300);
+}
+
+.select:hover, .select:focus {
+    border: none;
+    background-color: var(--gray-100);
+}
+
+.button {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 0;
+    border-radius: 7px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0;
+    max-width: 100%;
+    min-height: 28px;
+    min-width: 80px;
+    padding: 7px;
+    position: relative;
+    text-decoration: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    color: var(--blue-50);
+    background-color: var(--blue-500);
+}
+
+.button:hover {
+    background-color: var(--blue-600);
+}

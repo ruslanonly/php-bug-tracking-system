@@ -1,5 +1,6 @@
-@import url("../styles/variables.css");
 @import url("../styles/global.css");
+@import url("./page.css");
+@import url("./sidebar.css");
 
 body {
     background: var(--gray-200);
@@ -10,6 +11,35 @@ body {
     width: 100%;
     margin: auto;
     width: var(--container-width);
+}
+
+.layout__cols {
+    display: flex;
+    column-gap: 20px;
+}
+
+.layout__col {
+    flex-basis: 250px;
+}
+
+.layout__col--stretched {
+    flex: 1;
+}
+
+.tile {
+    background-color: var(--gray-50);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 0 1px var(--gray-300);
+}
+
+.tile.tile--md {
+    padding: 20px;
+}
+
+.tile.tile--sm {
+    padding: 10px;
 }
 
 .header {
@@ -77,5 +107,5 @@ body {
 }
 
 .main {
-    margin-top: calc(var(--header-h) + 20px);
+    margin-top: var(--header-h);
 }
