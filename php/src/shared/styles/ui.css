@@ -23,7 +23,6 @@
 .button {
     width: 100%;
     font-size: 14px;
-    font-weight: 600;
     cursor: pointer;
     border: 0;
     border-radius: 7px;
@@ -40,11 +39,56 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    border: solid 2px;
 
-    color: var(--blue-50);
-    background-color: var(--blue-500);
+    color: var(--gray-900);
+    background-color: var(--blue-100);
+    border-color: var(--blue-200);
 }
 
 .button:hover {
-    background-color: var(--blue-600);
+    background-color: var(--blue-200);
+}
+
+.button.warning {
+    color: var(--gray-900);
+    background-color: var(--yellow-200);
+}
+
+.button.danger {
+    color: var(--gray-900);
+    background-color: var(--red-100);
+    border-color: var(--red-200);
+}
+
+.button.danger:hover {
+    background-color: var(--red-200);
+}
+
+.input {
+    outline: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 0 0 1px var(--gray-300);
+}
+
+.input:focus-visible {
+    box-shadow: 0 0 0 1px var(--blue-500);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-item label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.form-item input, .form-item textarea {
+    width: 100%;
 }

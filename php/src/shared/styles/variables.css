@@ -1,5 +1,5 @@
 :root {
-    --container-width: 1076px;
+    --container-width: 900px;
     --header-h: 54px;
 
     --gray-50: #f9fafb;
@@ -25,4 +25,18 @@
     --blue-800: #1e40af;
     --blue-900: #1e3a8a;
     --blue-950: #172554;
+
+    --red-50: #ffefef;
+    --red-100: #fedbdb;
+    --red-200: #febfbf;
+    --red-300: #fd9393;
+    --red-400: #fa6060;
+    --red-500: #f63b3b;
+    --red-600: #eb2525;
+    --red-700: #d81d1d;
+    --red-800: #af1e1e;
+    --red-900: #8a1e1e;
+    --red-950: #541717;
+
+    --yellow-500: #f6d43b;
 }

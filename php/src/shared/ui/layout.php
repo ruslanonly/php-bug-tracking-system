@@ -3,8 +3,7 @@
 
     $_TABS = array(
         "reports" => "Отчеты",
-        "products" => "Продукты",
-        "companies" => "Компании"
+        "products" => "Продукты"
     );
 ?>
 
