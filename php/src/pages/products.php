@@ -31,7 +31,7 @@
             ?>
         </div>
         <div class="sidebar tile tile--sm">
-            <a type="submit" class="button" style="text-align: center" href="/add_report.php">
+            <a type="submit" class="button" style="text-align: center" href="/add_product.php">
                 Создать продукт
             </a>
         </div>
@@ -48,19 +48,27 @@
                 </h3>
             </div>
             
-            <div class="reports">
+            <div class="products">
                 <?php
                     include(dirname(__DIR__).'/shared/lib/date.php');
                     setlocale(LC_TIME, 'ru_RU.utf8');
                     foreach($PRODUCTS as $product) {
                         echo "
                             <div class='product'>
-                                <div class='product__left'>
+                                <div class='product__wrapper'>
                                     <div class='product__stick'></div>
-                                    <div class='product__content'></div>
-                                </div>
-                                <div class='product__button'>
-                                    <a href='/reports.php?product_id=$product[id]' class='button'>Список отчетов</a>
+                                    <div class='product__content'>
+                                        <span class='product__name'>$product[name]</span>
+                                        <span class='product__description'>$product[description]</span>
+                                        <div class='product__buttons'>
+                                            <a href='/reports.php?product_id=$product[id]'>Список отчетов</a>
+                                            <a href='/update_product.php?id=$product[id]'>Редактировать</a>
+                                            <form action='/features/actions/delete_product.php' method='POST' class='filter-form'>
+                                                <input type='hidden' name='id' value='$product[id]'>
+                                                <input type='submit' class='button danger' href='/delete_product.php?product_id=$product[id]' value='Удалить'>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         ";
