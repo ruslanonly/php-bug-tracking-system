@@ -10,10 +10,25 @@
 ?>
 
 <?php
-    $baseQuery = "SELECT id, name, product_id, status, priority, problem, created_at FROM report";
+    $_GET["status"] = isset($_GET["status"]) ? $_GET["status"] :"";
+    $_GET["problem"] = isset($_GET["problem"]) ? $_GET["problem"] :"";
+    $_GET["priority"] = isset($_GET["priority"]) ? $_GET["priority"] :"";
+
+    $where = "WHERE";
+    $hasWhere = false;
+    foreach($_GET as $key => $value) {
+        if ($value != "" || $value != null) {
+            $hasWhere = true;
+            $where .= " ".$key ."=". $value ." AND ";
+        }
+    }
+    $where = substr($where,0,-4);
+    $baseQuery = "SELECT id, name, product_id, status, priority, problem, created_at FROM report $where";
     $sortByTime = isset($_GET['sort_by_time']) ? $_GET['sort_by_time'] : 'DESC';
     $sqlQuery = $baseQuery." ORDER BY created_at $sortByTime";
     $REPORTS = $_DB->query($sqlQuery);
+
+    $PRODUCT_ID = isset($_GET['product_id']) ? $_GET['product_id'] : '';
 ?>
 
 <div class="layout__cols">
@@ -35,25 +50,15 @@
         </div>
         <div class="sidebar tile tile--sm">
             <form action="reports.php" method="GET" class="filter-form">
-                <select class="select" name="product" placeholder="Любой продукт">
-                    <option value="">Любой продукт</option>
-                    <?php 
-                        $baseQuery = "SELECT id, name FROM product";
-                        $productsResult = $_DB->query($sqlQuery);
-                        foreach($productsResult as $product) {
-                            echo "
-                                <option value=$product[id]>$product[name]</option>
-                            ";
-                        }
-                    ?>
-                </select>
+                <input type="hidden" name="product_id" value="<?php echo $PRODUCT_ID;?>">
                 <select class="select" name="status" placeholder="Любой статус">
                     <option value="">Любой статус</option>
                     <?php 
                         foreach($REPORT_STATUS as $num => $name) {
-                            echo "
-                                <option value=$num>$name</option>
-                            ";
+                            if (
+                                $num == $_GET["status"]
+                            ) echo "<option selected='selected' value=$num>$name</option>";
+                            else echo "<option value=$num>$name</option>";
                         }
                     ?>
                 </select>
@@ -61,9 +66,10 @@
                     <option value="">Любой тип проблемы</option>
                     <?php
                         foreach($REPORT_PROBLEM as $num => $name) {
-                            echo "
-                                <option value=$num>$name</option>
-                            ";
+                            if (
+                                $num == $_GET["problem"]
+                            ) echo "<option selected='selected' value=$num>$name</option>";
+                            else echo "<option value=$num>$name</option>";
                         }
                     ?>
                 </select>
@@ -71,9 +77,10 @@
                     <option value="">Любой приоритет</option>
                     <?php 
                         foreach($REPORT_PRIORITY as $num => $name) {
-                            echo "
-                                <option value=$num>$name</option>
-                            ";
+                            if (
+                                $num == $_GET["priority"]
+                            ) echo "<option selected='selected' value=$num>$name</option>";
+                            else echo "<option value=$num>$name</option>";
                         }
                     ?>
                 </select>

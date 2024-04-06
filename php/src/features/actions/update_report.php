@@ -4,6 +4,7 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id = $_POST['id'];
         $name = $_POST['name'];
+        $status = $_POST['status'];
         $product_id = $_POST['product_id'];
         $priority = $_POST['priority'];
         $problem = $_POST['problem'];
@@ -15,6 +16,7 @@
             UPDATE report SET 
             name='$name',
             product_id=$product_id,
+            status=$status,
             priority=$priority,
             problem=$problem,
             playback_steps='$playback_steps',

@@ -88,7 +88,9 @@
                 </div>
                 <div class="report__info">
                     <?php
+                        include(dirname(__DIR__).'/shared/lib/date.php');
                         $descriptionItems = array(
+                            'Дата создания' => formatDate($REPORT['created_at']),
                             'Продукт' => $REPORT['product_name'],
                             'Статус' => $REPORT_STATUS[$REPORT['status']],
                             'Тип проблемы' => $REPORT_PROBLEM[$REPORT['problem']],

@@ -67,6 +67,18 @@
                         </select>
                     </div>
                     <div class="form-item">
+                        <label for='status'>Статус</label>
+                        <select class="select" name="status" placeholder="Любой статус" value='<?php echo $REPORT["status"] ?>'>
+                            <?php 
+                                foreach($REPORT_STATUS as $num => $name) {
+                                    echo "
+                                        <option value=$num>$name</option>
+                                    ";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-item">
                         <label for='priority'>Приоритет</label>
                             <select class="select" name="priority" placeholder="Любой приоритет" value='<?php echo $REPORT["priority"] ?>'>
                             <?php 

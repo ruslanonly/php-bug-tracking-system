@@ -2,11 +2,16 @@
     include(dirname(__DIR__).'../../shared/lib/db/connect_database.php');
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $id = $_POST['id'];
         $name = $_POST['name'];
         $description = $_POST['description'];
 
-        $baseQuery = "INSERT INTO product (name, description) VALUES ('$name', '$description')";
-
+        $baseQuery = "
+            UPDATE product SET 
+            name='$name',
+            description='$description'
+            WHERE id=$id
+        ";
         if ($description == '') {
             $description = null;
         }
@@ -18,13 +23,13 @@
         $emptyStringCheckValues = array(
             "Название продукта" => $name,
         );
-        foreach( $emptyStringCheckValues as $key => $value ) {
+        foreach( $emptyStringCheckValues as $key => $value) {
             if ($value) {
                 unset($emptyStringCheckValues[$key]);
             }
         }
         if (!$_DB->error && count($emptyStringCheckValues) == 0) {
-            $insertResult = $_DB->query($baseQuery);
+            $updateResult = $_DB->query($baseQuery);
             header("Location: $_SERVER[HTTP_ORIGIN]/products.php");
         } else {
 ?>
@@ -51,7 +56,7 @@
                         if ($_DB->error) {
                             echo "
                                 <div class='alert__tesis>
-                                    Не удалось добивить отчет. Возможны проблемы с неправильно указанными данными.
+                                    Не удалось изменить продукт. Возможны проблемы с неправильно указанными данными.
                                 </div>
                             ";
                         }
@@ -70,7 +75,7 @@
                         <?php
                             echo "
                                 <a href='$_SERVER[HTTP_ORIGIN]/products.php' class='button'>Перейти к списку продуктов</a>
-                                <a href='$_SERVER[HTTP_ORIGIN]/add_product.php' class='button'>Вернуться к добавлению продукта</a>
+                                <a href='$_SERVER[HTTP_ORIGIN]/update_product.php?id=$id' class='button'>Вернуться к изменению продукта</a>
                             ";
                         ?>
                     </div>

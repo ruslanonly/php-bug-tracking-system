@@ -2,19 +2,14 @@
     include(dirname(__DIR__).'/shared/model/reports.php');
 
     $SIDEBAR_ITEMS = array(
-        "products.php" => "Список продуктов",
-        "products.php?moderated" => "Модерируемые продукты"
+        "products.php" => "Список продуктов"
     );
 
     include(dirname(__DIR__).'/shared/lib/db/connect_database.php');
 ?>
 
 <?php
-    $moderated = isset($_GET['moderated']);
     $baseQuery = "SELECT id, name, description, moderated FROM product";
-    if ($moderated) {
-            $baseQuery .= " WHERE moderated=1";
-    }
     $PRODUCTS = $_DB->query($baseQuery);
 ?>
 
