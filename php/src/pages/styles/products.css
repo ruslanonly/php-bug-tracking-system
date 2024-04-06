@@ -1,22 +1,21 @@
 .products {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 16px;
 }
 
 .product {
     display: flex;
     justify-content: space-between;
+    background-color: var(--gray-100);
+    padding: 16px;
+    border-radius: 16px;
 }
 
 .product__wrapper {
     display: flex;
     gap: 16px;
-}
-
-.product__content {
     flex: 1;
-    display: flex;
     flex-direction: column;
     gap: 8px;
 }
@@ -28,21 +27,17 @@
 
 .product__description{
     font-size: 12px;
-    color: var(--gray-500);
-}
-
-.product__stick {
-    min-width: 20px;
-    width: 20px;
-    border-bottom-left-radius: 20px;
-    height: 100%;
-    background-color: var(--blue-200);
+    color: var(--gray-400);
 }
 
 .product__buttons {
     display: flex;
     align-items: center;
     gap: 16px;
+}
+
+.product__delete-button {
+    color: var(--red-500);
 }
 
 .product__buttons input {

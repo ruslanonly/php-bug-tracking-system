@@ -1,7 +1,3 @@
-<?php
-    include(dirname(__DIR__).'/shared/model/reports.php');
-?>
-
 <div class="layout__cols">
     <div class="layout__col">
         <div class="sidebar tile tile--sm">
@@ -26,18 +22,12 @@
     const product = (id, name, description) => `
         <div class='product'>
             <div class='product__wrapper'>
-                <div class='product__stick'></div>
-                <div class='product__content'>
-                    <span class='product__name'>${name}</span>
-                    <span class='product__description'>${description}</span>
-                    <div class='product__buttons'>
-                        <a href='/reports.php?product_id=${id}'>Список отчетов</a>
-                        <a href='/update_product.php?id=${id}'>Редактировать</a>
-                        <form action='/features/actions/delete_product.php' method='POST' class='filter-form'>
-                            <input type='hidden' name='id' value='${id}'>
-                            <input type='submit' class='button danger' href='/delete_product.php?product_id=${id}' value='Удалить'>
-                        </form>
-                    </div>
+                <span class='product__name'>${name}</span>
+                <span class='product__description'>${description}</span>
+                <div class='product__buttons'>
+                    <a href='/reports.php?product_id=${id}'>Список отчетов</a>
+                    <a href='/update_product.php?id=${id}'>Редактировать</a>
+                    <button class="product__delete-button">Удалить</button>
                 </div>
             </div>
         </div>

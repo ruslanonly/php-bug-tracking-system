@@ -1,31 +1,11 @@
 <?php
-    include(dirname(__DIR__).'/shared/model/reports.php');
-
     $SIDEBAR_ITEMS = array(
         "reports.php" => "Отчеты",
     );
-
-    include(dirname(__DIR__).'/shared/lib/db/connect_database.php');
-    include(dirname(__DIR__).'/shared/model/reports.php');
 ?>
 
 <?php
     $REPORT_ID = $_GET['id'];
-    $baseQuery = "
-        SELECT
-            r.id,
-            r.name,
-            playback_steps,
-            actual_result,
-            expected_result,
-            status,
-            priority,
-            problem,
-            r.created_at,
-            p.name as product_name 
-        FROM report as r INNER JOIN product as p ON p.id = product_id WHERE r.id=$REPORT_ID
-    ";
-    $REPORT = $_DB->query($baseQuery)->fetch_assoc();
 ?>
 
 <div class="layout__cols">
@@ -40,76 +20,103 @@
                 }
             ?>
         </div>
-        <?php
-            if ($REPORT != null)
-            echo "
-                <div class='sidebar tile tile--sm'>
-                    <div class='sidebar__buttons'>
-                        <a type='submit' class='button' style='text-align: center' href='/update_report.php?id=$REPORT[id]'>
-                            Изменить отчет
-                        </a>
-                        <form action='/features/actions/delete_report.php' method='POST'>
-                            <input type='hidden' name='id' value='$REPORT[id]'>
-                            <input type='submit' class='button danger' value='Удалить'>
-                        </form>
-                    </div>
-                </div>
-            ";
-        ?>
+        <div class='sidebar tile tile--sm'>
+            <div class='sidebar__buttons'>
+                <a type='submit' class='button' style='text-align: center' href='/update_report.php?id="<?php echo $REPORT_ID?>"'>
+                    Изменить отчет
+                </a>
+                <button id='delete_report' type='submit' class='button danger'>Удалить</button>
+            </div>
+        </div>
         
     </div>
     <div class="layout__col layout__col--stretched">
         <div class="tile">
-            <?php
-                if ($REPORT == null) {
-                    echo "<h2 class='page__title'>Отчет не найден</h2>";
-                } else {
-            ?>
             <h2 class="page__title">Отчет</h2>
             <div class="report">
                 <div class="report__main">
-                    <h2 class="report__title"><?php echo $REPORT['name'];?></h2>
-                    <?php
-                        $reportItems = array(
-                            'playback_steps' => 'Шаги воспроизведения',
-                            'actual_result' => 'Фактический результат',
-                            'expected_result' => 'Ожидаемый результат'
-                        );
-                        foreach($reportItems as $reportItemName => $reportItemTitle) {
-                            $content = $REPORT[$reportItemName] ? $REPORT[$reportItemName] : 'Информация не указана';
-                            echo "
-                                <div class='report__item'>
-                                    <span class='report__item-title'>$reportItemTitle</span>
-                                    <div class='report__item-content'>$content</div>
-                                </div>
-                            ";
-                        }
-                    ?>
+                    <h2 class="report__title"></h2>
+                    <div class='report__item'></div>
                 </div>
-                <div class="report__info">
-                    <?php
-                        include(dirname(__DIR__).'/shared/lib/date.php');
-                        $descriptionItems = array(
-                            'Дата создания' => formatDate($REPORT['created_at']),
-                            'Продукт' => $REPORT['product_name'],
-                            'Статус' => $REPORT_STATUS[$REPORT['status']],
-                            'Тип проблемы' => $REPORT_PROBLEM[$REPORT['problem']],
-                            'Приоритет' => $REPORT_PRIORITY[$REPORT['priority']]
-                        );
-                        foreach($descriptionItems as $descriptionItemName => $descriptionItemValue) {
-                            echo "
-                                <div class='report__info-row'>
-                                    <div class='report__info-row-label'>$descriptionItemName</div>
-                                    <div class='report__info-row-value'>$descriptionItemValue</div>
-                                </div>
-                            ";
-                        }
-                    ?>
-                </div>
+                <div class="report__info"></div>
             </div>
-            <?php
-                }
-            ?>
         </div>
     </div>
 </div>
+
+<script>
+    const reportTitle = (name) => {
+        $('h2.report__title').html(name)
+    }
+
+    const reportMain = (report) => {
+        const reportItems = {
+            'playback_steps': 'Шаги воспроизведения',
+            'actual_result': 'Фактический результат',
+            'expected_result': 'Ожидаемый результат'
+        }
+
+        for(const itemName in reportItems) {
+            const title = reportItems[itemName]
+
+            const content = report[itemName] ? report[itemName] : 'Информация не указана';
+            $('.report__main').append(`
+                <div class='report__item'>
+                    <span class='report__item-title'>${title}</span>
+                    <div class='report__item-content'>${content}</div>
+                </div>
+            `)
+        }
+    }
+
+    const reportInfo = (report) => {
+        const reportInfoItems = {
+            'Дата создания': formatDate(report['created_at']),
+            'Продукт': report['product_name'],
+            'Статус': REPORT_STATUS[report['status']],
+            'Тип проблемы': REPORT_PROBLEM[report['problem']],
+            'Приоритет': REPORT_PRIORITY[report['priority']]
+        }
+
+            
+        for(const reportInfoItemName in reportInfoItems) {
+            const reportInfoItemValue = reportInfoItems[reportInfoItemName]
+
+            $('.report__info').append(`
+                <div class='report__info-row'>
+                    <div class='report__info-row-label'>${reportInfoItemName}</div>
+                    <div class='report__info-row-value'>${reportInfoItemValue}</div>
+                </div>
+            `)
+        }
+    }
+
+    const query = (id) => {
+        $(document).ready(() => {
+            $.ajax({
+                url: `/features/endpoints/report.php?id=${id}`,
+                method: 'GET',
+                complete: (response) => {
+                    const report = response.responseJSON
+                    
+                    if (report) {
+                        reportTitle(report.name)
+                        reportMain(report)
+                        reportInfo(report)
+                    } else {
+                        $('.report').parent().html('<h2 class="page__title">Отчет не найден</h2>')
+                    }
+                }
+            })
+        })
+    }
+
+    const searchParams = useSearchParams()
+    const report_id = searchParams.get('id')
+
+    if (report_id) {
+        query(report_id)
+    } else {
+        $('.report').report().html('<h2 class="page__title">Неизвестный отчет</h2>')
+    }
+</script>

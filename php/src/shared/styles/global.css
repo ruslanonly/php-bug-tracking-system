@@ -11,3 +11,11 @@ a {
     text-decoration: none;
     color: var(--gray-950);
 }
+
+button {
+    border: none;
+    padding: 0 0;
+    background-color: transparent;
+    font-size: 14px;
+    cursor: pointer;
+}
