@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="/shared/ui/layout.css">
         <link rel="stylesheet" href="/pages/styles<?php echo str_replace('.php', '', $PHP_SELF); ?>.css">
         <title><?php echo isset($meta_info) ? $meta_info["title"] : "Layout Title"; ?></title>
+        <script src="/shared/assets/js/jquery-3.7.1.min.js"></script>
     </head>
     <body>
         <header class="header">

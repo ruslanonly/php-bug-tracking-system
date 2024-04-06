@@ -15,7 +15,8 @@
     box-shadow: 0 0 0 1px var(--gray-300);
 }
 
-.select:hover, .select:focus {
+.select:hover,
+.select:focus {
     border: none;
     background-color: var(--gray-100);
 }
@@ -87,8 +88,18 @@
     display: block;
     margin-bottom: 5px;
     font-size: 14px;
+    color: var(--gray-500);
 }
 
-.form-item input, .form-item textarea {
+.form-item input,
+.form-item textarea {
     width: 100%;
+}
+
+.form-item input {
+    height: 30px;
+}
+
+.form-item textarea {
+    min-height: 50px;
 }
