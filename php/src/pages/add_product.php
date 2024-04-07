@@ -1,12 +1,9 @@
 <?php
-    include(dirname(__DIR__).'/shared/model/reports.php');
-
     $SIDEBAR_ITEMS = array(
         "reports.php" => "Отчеты"
     );
 
     include(dirname(__DIR__).'/shared/lib/db/connect_database.php');
-    include(dirname(__DIR__).'/shared/model/reports.php');
 ?>
 
 <div class="layout__cols">

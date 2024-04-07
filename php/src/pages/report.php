@@ -119,4 +119,21 @@
     } else {
         $('.report').report().html('<h2 class="page__title">Неизвестный отчет</h2>')
     }
+
+    const delete_report = (id) => {
+        $.ajax({
+            url: `/features/endpoints/delete_report.php`,
+            method: 'POST',
+            data: {
+                id
+            },
+            complete: (response) => {
+                console.log('deleted')
+            }
+        })
+    }
+
+    $('#delete_report').on('click', () => {
+        delete_report(report_id)
+    })
 </script>

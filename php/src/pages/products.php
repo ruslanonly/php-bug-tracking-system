@@ -20,7 +20,7 @@
 
 <script>
     const product = (id, name, description) => `
-        <div class='product'>
+        <div class='product' data-product-id='${id}'>
             <div class='product__wrapper'>
                 <span class='product__name'>${name}</span>
                 <span class='product__description'>${description}</span>
@@ -37,19 +37,41 @@
         Найдено ${amount} продуктов
     `
 
-    $(document).ready(() => {
+    const query = () => {
+        $(document).ready(() => {
+            $.ajax({
+                url: '/features/endpoints/products.php',
+                method: 'GET',
+                complete: (response) => {
+                    const products = response.responseJSON
+
+                    $('#product-list').html(
+                        products.map((p) => product(p.id, p.name, p.description))
+                    )
+
+                    $('#products-amount-label').html(productsAmount(products.length));
+                }
+            })
+        })
+    }
+
+    query()
+    
+    const delete_product = (id) => {
         $.ajax({
-            url: '/features/endpoints/products.php',
-            method: 'GET',
+            url: `/features/endpoints/delete_product.php`,
+            method: 'POST',
+            data: {
+                id
+            },
             complete: (response) => {
-                const products = response.responseJSON
-
-                $('#product-list').html(
-                    products.map((p) => product(p.id, p.name, p.description))
-                )
-
-                $('#products-amount-label').html(productsAmount(products.length));
+                query()
             }
         })
+    }
+
+    $('#product-list').on('click', '.product .product__delete-button', function() {
+        const productId = $(this).closest('.product').data('product-id')
+        delete_product(productId)
     })
 </script>
