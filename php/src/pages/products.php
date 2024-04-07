@@ -23,7 +23,7 @@
         <div class='product' data-product-id='${id}'>
             <div class='product__wrapper'>
                 <span class='product__name'>${name}</span>
-                <span class='product__description'>${description}</span>
+                ${description ? `<span class='product__description'>${description}</span>` : ''}
                 <div class='product__buttons'>
                     <a href='/reports.php?product_id=${id}'>Список отчетов</a>
                     <a href='/update_product.php?id=${id}'>Редактировать</a>

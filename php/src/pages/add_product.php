@@ -22,19 +22,47 @@
     <div class="layout__col layout__col--stretched">
         <div class="tile">
             <h2 class="page__title">Добавление продукта</h2>
-            <div class="add_report">
-                <form action='/features/actions/add_product.php' method='POST' class="form">
-                    <div class="form-item">
-                        <label for='name'>Название продукта</label>
-                        <input class="input" type='text' name='name'>
-                    </div>
-                    <div class="form-item">
-                        <label for='description'>Описание</label>
-                        <input class="input" type='text' name='description'>
-                    </div>
-                    <input type="submit" class="button" value="Добавить">
-                </form>
-            </div>
+            <form id="add-product__form" class="form">
+                <div class="form-item">
+                    <label for='name'>Название продукта</label>
+                    <input class="input" type='text' name='name'>
+                </div>
+                <div class="form-item">
+                    <label for='description'>Описание</label>
+                    <input class="input" type='text' name='description'>
+                </div>
+                <input type="submit" class="button" value="Добавить">
+            </form>
         </div>
     </div>
 </div>
+
+<script>
+    const addProduct = (data) => {
+        $.ajax({
+            url: `/features/endpoints/add_product.php`,
+            method: 'POST',
+            data,
+            success: (response) => {
+                history.back()
+            },
+            error: (error) => {
+                const messages = $.parseJSON(error.responseText).messages
+                messages.forEach((message) => {
+                    toast(message)
+                })
+            }
+        })
+    }
+
+    $('#add-product__form').on('submit', (e) => {
+        e.preventDefault()
+
+        const formValues = {}
+        $.each($('#add-product__form').serializeArray(), function(i, field) {
+            formValues[field.name] = field.value
+        })
+
+        addProduct(formValues)
+    })
+</script>

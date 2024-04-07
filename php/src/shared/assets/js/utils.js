@@ -25,3 +25,11 @@ function formatDate(createdAt) {
 function useSearchParams() {
     return new URL(document.location).searchParams;
 }
+
+function toast(message) {
+    Toastify({
+        text: message,
+        duration: 3000,
+        gravity: 'bottom'
+    }).showToast();
+}
