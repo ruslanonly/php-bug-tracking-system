@@ -44,7 +44,7 @@
             method: 'POST',
             data,
             success: (response) => {
-                history.back()
+                window.location.href = '/products.php'
             },
             error: (error) => {
                 const messages = $.parseJSON(error.responseText).messages
