@@ -1,15 +1,8 @@
 <?php
-    include(dirname(__DIR__).'/shared/model/reports.php');
-
     $SIDEBAR_ITEMS = array(
         "reports.php" => "Отчеты",
     );
 
-    include(dirname(__DIR__).'/shared/lib/db/connect_database.php');
-    include(dirname(__DIR__).'/shared/model/reports.php');
-?>
-
-<?php
     $PRODUCT_ID = isset($_GET['product_id']) ? $_GET['product_id'] : '';
 ?>
 
@@ -31,42 +24,11 @@
             </a>
         </div>
         <div class="sidebar tile tile--sm">
-            <form action="reports.php" method="GET" class="filter-form">
+            <form id="filter-form" class="filter-form">
                 <input type="hidden" name="product_id" value="<?php echo $PRODUCT_ID;?>">
-                <select class="select" name="status" placeholder="Любой статус">
-                    <option value="">Любой статус</option>
-                    <?php 
-                        foreach($REPORT_STATUS as $num => $name) {
-                            if (
-                                $num == $_GET["status"]
-                            ) echo "<option selected='selected' value=$num>$name</option>";
-                            else echo "<option value=$num>$name</option>";
-                        }
-                    ?>
-                </select>
-                <select class="select" name="problem" placeholder="Любой тип проблемы">
-                    <option value="">Любой тип проблемы</option>
-                    <?php
-                        foreach($REPORT_PROBLEM as $num => $name) {
-                            if (
-                                $num == $_GET["problem"]
-                            ) echo "<option selected='selected' value=$num>$name</option>";
-                            else echo "<option value=$num>$name</option>";
-                        }
-                    ?>
-                </select>
-                <select class="select" name="priority" placeholder="Любой приоритет">
-                    <option value="">Любой приоритет</option>
-                    <?php 
-                        foreach($REPORT_PRIORITY as $num => $name) {
-                            if (
-                                $num == $_GET["priority"]
-                            ) echo "<option selected='selected' value=$num>$name</option>";
-                            else echo "<option value=$num>$name</option>";
-                        }
-                    ?>
-                </select>
-                <input type="submit" class="button" value="Показать">
+                <select class="select" name="status" placeholder="Любой статус"></select>
+                <select class="select" name="problem" placeholder="Любой тип проблемы"></select>
+                <select class="select" name="priority" placeholder="Любой приоритет"></select>
             </form>
         </div>
     </div>
@@ -116,6 +78,48 @@
 </div>
 
 <script>
+    const option = (value, label) => {
+        return `<option value=${value}>${label}</option>`
+    }
+
+    const getSelectOptions = (options) => {
+        let html = ''
+
+        for(let i = 0; i < options.length; i++) {
+            const optionName = options[i]
+            html += option(i, optionName)
+        }
+
+        return html
+    }
+
+    const emptyOption = option('empty', )
+
+    $('select[name="status"]').html(getSelectOptions(REPORT_STATUS) + option('', 'Статус не выбран'))
+    $('select[name="problem"]').html(getSelectOptions(REPORT_PROBLEM) + option('', 'Проблема не выбрана'))
+    $('select[name="priority"]').html(getSelectOptions(REPORT_PRIORITY) + option('', 'Приоритет не выбран'))
+
+    const searchParams = useSearchParams()
+    const status = searchParams.get('status')
+    const problem = searchParams.get('problem')
+    const priority = searchParams.get('priority')
+
+    $(`select[name="status"] option[value=""]`).prop("selected", true)
+    $(`select[name="problem"] option[value=""]`).prop("selected", true)
+    $(`select[name="priority"] option[value=""]`).prop("selected", true)
+
+    if (status) {
+        $(`select[name="status"] option[value=${status}]`).prop("selected", true)
+    }
+
+    if (problem) {
+        $(`select[name="problem"] option[value=${problem}]`).prop("selected", true)
+    }
+
+    if (priority) {
+        $(`select[name="priority"] option[value=${priority}]`).prop("selected", true)
+    }
+
     const report = (id, name, created_at, status) => {
         const formattedDate = formatDate(created_at)
         const mappedStatus = REPORT_STATUS[status]
@@ -134,10 +138,13 @@
         return `Найдено ${amount} отчетов`
     }
 
-    const query = () => {
+    const query = (search) => {
         $(document).ready(() => {
+            let postfix = ''
+            if (search) postfix += '?' + search
+
             $.ajax({
-                url: '/features/endpoints/reports.php',
+                url: `/features/endpoints/reports.php?${search}`,
                 method: 'GET',
                 complete: (response) => {
                     const reports = response.responseJSON
@@ -153,4 +160,24 @@
     }
 
     query()
+
+    $('#filter-form').on('change', (e) => {
+        e.preventDefault()
+
+        $.each($('#filter-form').serializeArray(), function(i, field) {
+            if (field.value) {
+                searchParams.set(field.name, field.value)
+            } else {
+                searchParams.delete(field.name)
+            }
+        })
+        let path = window.location.pathname
+        if (searchParams.size > 0) {
+            path += '?' + searchParams.toString();
+        }
+
+        history.pushState(null, '', path);
+
+        query(searchParams.toString())
+    })
 </script>

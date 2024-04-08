@@ -2,9 +2,7 @@
     $SIDEBAR_ITEMS = array(
         "reports.php" => "Отчеты",
     );
-?>
 
-<?php
     $REPORT_ID = $_GET['id'];
 ?>
 
