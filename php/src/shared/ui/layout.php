@@ -25,7 +25,7 @@
         <header class="header">
             <div class="header__wrapper container">
                 <div class="header__left">
-                    <a class="header__logo-title" href="/home.php">
+                    <a class="header__logo-title" href="/reports.php">
                         <div class="header__logo"></div>
                         <h1 class="header__title">Bug Tracking System</h1>
                     </a>

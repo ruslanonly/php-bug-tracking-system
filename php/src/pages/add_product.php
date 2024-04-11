@@ -25,7 +25,7 @@
             <form id="add-product__form" class="form">
                 <div class="form-item">
                     <label for='name'>Название продукта</label>
-                    <input class="input" type='text' name='name'>
+                    <input class="input" type='text' name='name' required>
                 </div>
                 <div class="form-item">
                     <label for='description'>Описание</label>

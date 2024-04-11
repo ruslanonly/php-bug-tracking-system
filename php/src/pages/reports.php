@@ -95,9 +95,9 @@
 
     const emptyOption = option('empty', )
 
-    $('select[name="status"]').html(getSelectOptions(REPORT_STATUS) + option('', 'Статус не выбран'))
-    $('select[name="problem"]').html(getSelectOptions(REPORT_PROBLEM) + option('', 'Проблема не выбрана'))
-    $('select[name="priority"]').html(getSelectOptions(REPORT_PRIORITY) + option('', 'Приоритет не выбран'))
+    $('select[name="status"]').html(option('', 'Любой статус') + getSelectOptions(REPORT_STATUS))
+    $('select[name="problem"]').html(option('', 'Любая проблема') + getSelectOptions(REPORT_PROBLEM))
+    $('select[name="priority"]').html(option('', 'Любой приоритет') + getSelectOptions(REPORT_PRIORITY))
 
     const searchParams = useSearchParams()
     const status = searchParams.get('status')
@@ -159,7 +159,7 @@
         })
     }
 
-    query()
+    query(searchParams.toString())
 
     $('#filter-form').on('change', (e) => {
         e.preventDefault()

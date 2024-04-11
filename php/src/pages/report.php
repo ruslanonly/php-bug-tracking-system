@@ -126,7 +126,7 @@
                 id
             },
             complete: (response) => {
-                console.log('deleted')
+                window.location.href = '/reports.php'
             }
         })
     }
