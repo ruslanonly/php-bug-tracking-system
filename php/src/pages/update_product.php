@@ -58,7 +58,7 @@
             error: (error) => {
                 const messages = $.parseJSON(error.responseText).messages
                 messages.forEach((message) => {
-                    toast(message)
+                    toast(message, 'error')
                 })
             }
         })
@@ -80,7 +80,7 @@
             error: (error) => {
                 const messages = $.parseJSON(error.responseText).messages
                 messages.forEach((message) => {
-                    toast(message)
+                    toast(message, 'error')
                 })
             }
         })

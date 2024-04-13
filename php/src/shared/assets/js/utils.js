@@ -26,10 +26,13 @@ function useSearchParams() {
     return new URL(document.location).searchParams;
 }
 
-function toast(message) {
+function toast(message, status) {
     Toastify({
         text: message,
         duration: 3000,
-        gravity: 'bottom'
+        gravity: 'bottom',
+        style: {
+            background: status === 'error' ? '#ef233c' : '#a7c957'
+        }
     }).showToast();
 }

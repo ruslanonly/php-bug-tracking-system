@@ -1,33 +1,8 @@
 <?php
-    include(dirname(__DIR__).'/shared/model/reports.php');
-
     $SIDEBAR_ITEMS = array(
         "reports.php" => "Отчеты"
     );
-
-    include(dirname(__DIR__).'/shared/lib/db/connect_database.php');
-    include(dirname(__DIR__).'/shared/model/reports.php');
 ?>
-
-<?php
-    $REPORT_ID = $_GET['id'];
-    $baseQuery = "
-        SELECT
-            id,
-            name,
-            product_id,
-            playback_steps,
-            actual_result,
-            expected_result,
-            status,
-            priority,
-            problem,
-            created_at 
-        FROM report WHERE id=$REPORT_ID
-    ";
-    $REPORT = $_DB->query($baseQuery)->fetch_assoc();
-?>
-
 
 <div class="layout__cols">
     <div class="layout__col">
@@ -44,79 +19,147 @@
     </div>
     <div class="layout__col layout__col--stretched">
         <div class="tile">
-            <h2 class="page__title">Изменение отчета</h2>
+            <h2 class="page__title">Добавление отчета</h2>
             <div class="add_report">
-                <form action='/features/actions/update_report.php' method='POST' class="form">
-                    <input type="hidden" name="id" value="<?php echo $REPORT_ID;?>">
+                <form id="report-form" class="form">
                     <div class="form-item">
-                        <label for='name'>Название</label>
-                        <input class="input" type='text' name='name' value='<?php echo $REPORT["name"] ?>'>
+                        <label for='name'>Название *</label>
+                        <input class="input" type='text' name='name' required>
                     </div>
                     <div class="form-item">
-                        <label for='product_id'>Продукт</label>
-                        <select class="select" name="product_id" placeholder="Любой продукт" value='<?php echo $REPORT["product_id"] ?>'>
-                            <?php
-                                $baseQuery = "SELECT id, name FROM product";
-                                $productsResult = $_DB->query($baseQuery);
-                                foreach($productsResult as $product) {
-                                    echo "
-                                        <option value=$product[id]>$product[name]</option>
-                                    ";
-                                }
-                            ?>
-                        </select>
+                        <label for='product_id'>Продукт *</label>
+                        <select class="select" name="product_id" placeholder="Любой продукт" required></select>
                     </div>
                     <div class="form-item">
                         <label for='status'>Статус</label>
-                        <select class="select" name="status" placeholder="Любой статус" value='<?php echo $REPORT["status"] ?>'>
-                            <?php 
-                                foreach($REPORT_STATUS as $num => $name) {
-                                    echo "
-                                        <option value=$num>$name</option>
-                                    ";
-                                }
-                            ?>
-                        </select>
+                        <select class="select" name="status" placeholder="Любой статус"></select>
                     </div>
                     <div class="form-item">
                         <label for='priority'>Приоритет</label>
-                            <select class="select" name="priority" placeholder="Любой приоритет" value='<?php echo $REPORT["priority"] ?>'>
-                            <?php 
-                                foreach($REPORT_PRIORITY as $num => $name) {
-                                    echo "
-                                        <option value=$num>$name</option>
-                                    ";
-                                }
-                            ?>
-                        </select>
+                            <select class="select" name="priority" placeholder="Любой приоритет"></select>
                     </div>
                     <div class="form-item">
-                        <label for='problem'>Проблема</label>
-                        <select class="select" name="problem" placeholder="Любой тип проблемы" value='<?php echo $REPORT["problem"] ?>'>
-                            <?php
-                                foreach($REPORT_PROBLEM as $num => $name) {
-                                    echo "
-                                        <option value=$num>$name</option>
-                                    ";
-                                }
-                            ?>
-                        </select>
+                        <label for='problem'>Проблема *</label>
+                        <select class="select" name="problem" placeholder="Любой тип проблемы" required></select>
                     </div>
                     <div class="form-item">
-                        <label for='name'>Шаги воспроизведения</label>
-                        <textarea class="input" name='playback_steps'><?php echo $REPORT["playback_steps"] ?></textarea>
+                        <label for='name'>Шаги воспроизведения *</label>
+                        <textarea class="input" name='playback_steps' required></textarea>
                     </div>
                     <div class="form-item">
-                        <label for='name'>Фактический результат</label>
-                        <textarea class="input" name='actual_result'><?php echo $REPORT["actual_result"] ?></textarea>
+                        <label for='name'>Фактический результат *</label>
+                        <textarea class="input" name='actual_result' required></textarea>
                     </div>
                     <div class="form-item">
-                        <label for='name'>Ожидаемый результат</label>
-                        <textarea class="input" name='expected_result' ><?php echo $REPORT["expected_result"] ?></textarea>
+                        <label for='name'>Ожидаемый результат *</label>
+                        <textarea class="input" name='expected_result' required></textarea>
                     </div>
-                    <input type="submit" class="button" value="Сохранить изменения">
+                    <input type="submit" class="button" value="Изменить">
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    const option = (value, label, selected) => {
+        if (selected) {
+            return `<option value="${value}" selected>${label}</option>`
+        } else {
+            return `<option value="${value}">${label}</option>`
+        }
+    }
+
+    const getSelectOptions = (options) => {
+        let html = ''
+
+        for(let i = 0; i < options.length; i++) {
+            const optionName = options[i]
+            html += option(i, optionName)
+        }
+
+        return html
+    }
+
+    const emptyOption = option('empty', )
+
+    $('select[name="status"]').html(option('', 'Статус не выбран') + getSelectOptions(REPORT_STATUS))
+    $('select[name="problem"]').html(option('', 'Проблема не выбрана') + getSelectOptions(REPORT_PROBLEM))
+    $('select[name="priority"]').html(option('', 'Приоритет не выбран') + getSelectOptions(REPORT_PRIORITY))
+
+    function fillReportForm(report) {
+        for(let reportKey in report) {
+            const reportValue = report[reportKey]
+            $('#report-form').find(`[name=${reportKey}]`).val(reportValue)
+        }
+    }
+
+    $(document).ready(() => {
+        $.ajax({
+            url: '/features/endpoints/products.php',
+            method: 'GET',
+            success: (products) => {
+                const html = option('', 'Продукт не выбран') + products.map((p) => option(p.id, p.name))
+                $('select[name="product_id"]').html(html)
+            },
+            error: () => {
+                toast('Не удалось получить список продуктов', 'error')
+            }
+        })
+    })
+
+    const queryReport = (id) => {
+        $(document).ready(() => {
+            $.ajax({
+                url: `/features/endpoints/report.php?id=${id}`,
+                method: 'GET',
+                success: (report) => {
+                    if (report) {
+                        fillReportForm(report)
+                    } else {
+                        $('#report-form').parent().html('<h3 class="page__title">Отчет не найден</h3>')
+                    }
+                },
+                error: () => {
+                    toast('Не удалось получить отчет', 'error') 
+                }
+            })
+        })
+    }
+
+    const searchParams = useSearchParams()
+    const report_id = searchParams.get('id')
+    if (report_id) {
+        queryReport(report_id)
+    } else {
+        $('.report').html('<h2 class="page__title">Неизвестный отчет</h2>')
+    }
+
+    const updateReport = (data) => {
+        $.ajax({
+            url: `/features/endpoints/update_report.php`,
+            method: 'POST',
+            data,
+            success: (response) => {
+                window.location.href = `/report.php?id=${report_id}`
+            },
+            error: (error) => {
+                const messages = $.parseJSON(error.responseText).messages
+                messages.forEach((message) => {
+                    toast(message, 'error')
+                })
+            }
+        })
+    }
+
+    $('#report-form').on('submit', (e) => {
+        e.preventDefault()
+
+        const formValues = {}
+        $.each($('#report-form').serializeArray(), function(i, field) {
+            formValues[field.name] = field.value
+        })
+
+        updateReport(formValues)
+    })
+</script>

@@ -14,11 +14,16 @@
         $errors = array();
         $emptyStringCheckValues = array(
             "Название отчета" => $name,
+            "Продукт" => $product_id,
             "Проблема" => $problem,
             "Шаги воспроизведения" => $playback_steps,
             "Фактический результат" => $actual_result,
             "Ожидаемый результат" => $expected_result,
         );
+
+        if ($product_id == null || $product_id == '') {
+            array_push($errors, "Поле \"Продукт\" не должно быть пустым");
+        }
 
         foreach( $emptyStringCheckValues as $key => $value ) {
             if (!$value && $value != 0) {

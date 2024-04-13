@@ -20,7 +20,7 @@
         </div>
         <div class='sidebar tile tile--sm'>
             <div class='sidebar__buttons'>
-                <a type='submit' class='button' style='text-align: center' href='/update_report.php?id="<?php echo $REPORT_ID?>"'>
+                <a type='submit' class='button' style='text-align: center' href='/update_report.php?id=<?php echo $REPORT_ID?>'>
                     Изменить отчет
                 </a>
                 <button id='delete_report' type='submit' class='button danger'>Удалить</button>
@@ -115,7 +115,7 @@
     if (report_id) {
         query(report_id)
     } else {
-        $('.report').report().html('<h2 class="page__title">Неизвестный отчет</h2>')
+        $('.report').html('<h2 class="page__title">Неизвестный отчет</h2>')
     }
 
     const delete_report = (id) => {

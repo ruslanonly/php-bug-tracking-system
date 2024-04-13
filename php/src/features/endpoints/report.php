@@ -14,7 +14,8 @@
             priority,
             problem,
             r.created_at,
-            p.name as product_name 
+            p.name as product_name,
+            p.id as product_id
         FROM report as r INNER JOIN product as p ON p.id = product_id WHERE r.id=$report_id
     ";
 

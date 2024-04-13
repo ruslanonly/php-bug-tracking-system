@@ -79,7 +79,6 @@
 
     const emptyOption = option('empty', )
 
-    $('select[name="status"]').html(option('', 'Статус не выбран') + getSelectOptions(REPORT_STATUS))
     $('select[name="problem"]').html(option('', 'Проблема не выбрана') + getSelectOptions(REPORT_PROBLEM))
     $('select[name="priority"]').html(option('', 'Приоритет не выбран') + getSelectOptions(REPORT_PRIORITY))
 
@@ -87,11 +86,12 @@
         $.ajax({
             url: '/features/endpoints/products.php',
             method: 'GET',
-            complete: (response) => {
-                const products = response.responseJSON
-                    
+            success: (products) => {
                 const html = option('', 'Продукт не выбран') + products.map((p) => option(p.id, p.name))
                 $('select[name="product_id"]').html(html)
+            },
+            error: () => {
+                toast('Не удалось получить список продуктов', 'error')
             }
         })
     })
@@ -107,7 +107,7 @@
             error: (error) => {
                 const messages = $.parseJSON(error.responseText).messages
                 messages.forEach((message) => {
-                    toast(message)
+                    toast(message, 'error')
                 })
             }
         })

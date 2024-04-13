@@ -25,7 +25,7 @@
             <form id="add-product__form" class="form">
                 <div class="form-item">
                     <label for='name'>Название продукта</label>
-                    <input class="input" type='text' name='name' required>
+                    <input class="input" type='text' name='name' >
                 </div>
                 <div class="form-item">
                     <label for='description'>Описание</label>
@@ -49,7 +49,7 @@
             error: (error) => {
                 const messages = $.parseJSON(error.responseText).messages
                 messages.forEach((message) => {
-                    toast(message)
+                    toast(message, 'error')
                 })
             }
         })
