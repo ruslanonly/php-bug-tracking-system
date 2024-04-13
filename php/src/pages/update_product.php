@@ -26,16 +26,14 @@
                 <form id="update-product__form" class="form">
                     <input type="hidden" name="id" value="<?php echo $PRODUCT_ID;?>">
                     <div class="form-item">
-                        <label for='name'>Название продукта</label>
-                        <input class="input" type='text' name='name'>
+                        <label for='name'>Название продукта *</label>
+                        <input class="input" type='text' name='name' required>
                     </div>
                     <div class="form-item">
                         <label for='description'>Описание</label>
                         <input class="input" type='text' name='description'>
                     </div>
-                    <button type="submit" class="button">
-                        Изменить
-                    </button>
+                    <button id="submit-button" class="button">Изменить</button>
                 </form>
             </div>
         </div>
@@ -86,13 +84,30 @@
         })
     }
 
-    $('#update-product__form').on('submit', (e) => {
+    $('#submit-button').on('click', (e) => {
         e.preventDefault()
+
+        const required = {
+            name: 'Название продукта',
+        }
+
+        const requiredNames = Object.keys(required)
+
+        let hasEmptyRequired = false;
 
         const formValues = {}
         $.each($('#update-product__form').serializeArray(), function(i, field) {
             formValues[field.name] = field.value
+
+            if (requiredNames.includes(field.name) && !field.value) {
+                hasEmptyRequired = true
+                toast(`Поле \"${required[field.name]}\" не должно быть пустым`, 'error')
+            }
         })
+
+        if (hasEmptyRequired) {
+            return
+        }
 
         updateProduct(formValues)
     })

@@ -50,7 +50,7 @@
                         <label for='name'>Ожидаемый результат *</label>
                         <textarea class="input" name='expected_result' required></textarea>
                     </div>
-                    <input type="submit" class="button" value="Добавить">
+                    <button id="submit-button" class="button">Добавить</button>
                 </form>
             </div>
         </div>
@@ -113,13 +113,35 @@
         })
     }
 
-    $('#report-form').on('submit', (e) => {
+    $('#submit-button').on('click', (e) => {
         e.preventDefault()
+
+        const required = {
+            name: 'Название',
+            product_id: 'Продукт',
+            problem: 'Проблема',
+            playback_steps: 'Шаги воспроизведения',
+            actual_result: 'Фактический результат',
+            expected_result: 'Ожидаемый результат'
+        }
+
+        const requiredNames = Object.keys(required)
+
+        let hasEmptyRequired = false;
 
         const formValues = {}
         $.each($('#report-form').serializeArray(), function(i, field) {
             formValues[field.name] = field.value
+
+            if (requiredNames.includes(field.name) && !field.value) {
+                hasEmptyRequired = true
+                toast(`Поле \"${required[field.name]}\" не должно быть пустым`, 'error')
+            }
         })
+
+        if (hasEmptyRequired) {
+            return
+        }
 
         addReport(formValues)
     })

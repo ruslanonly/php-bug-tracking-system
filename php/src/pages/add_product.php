@@ -24,14 +24,14 @@
             <h2 class="page__title">Добавление продукта</h2>
             <form id="add-product__form" class="form">
                 <div class="form-item">
-                    <label for='name'>Название продукта</label>
-                    <input class="input" type='text' name='name' >
+                    <label for='name'>Название продукта *</label>
+                    <input class="input" type='text' name='name' required>
                 </div>
                 <div class="form-item">
                     <label for='description'>Описание</label>
                     <input class="input" type='text' name='description'>
                 </div>
-                <input type="submit" class="button" value="Добавить">
+                <button id="submit-button" class="button">Добавить</button>
             </form>
         </div>
     </div>
@@ -55,13 +55,30 @@
         })
     }
 
-    $('#add-product__form').on('submit', (e) => {
+    $('#submit-button').on('click', (e) => {
         e.preventDefault()
+
+        const required = {
+            name: 'Название продукта',
+        }
+
+        const requiredNames = Object.keys(required)
+
+        let hasEmptyRequired = false;
 
         const formValues = {}
         $.each($('#add-product__form').serializeArray(), function(i, field) {
             formValues[field.name] = field.value
+
+            if (requiredNames.includes(field.name) && !field.value) {
+                hasEmptyRequired = true
+                toast(`Поле \"${required[field.name]}\" не должно быть пустым`, 'error')
+            }
         })
+
+        if (hasEmptyRequired) {
+            return
+        }
 
         addProduct(formValues)
     })
