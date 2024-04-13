@@ -94,36 +94,35 @@
         }
     }
 
-    $(document).ready(() => {
+    const queryProducts = (onSuccess) => {
         $.ajax({
             url: '/features/endpoints/products.php',
             method: 'GET',
             success: (products) => {
                 const html = option('', 'Продукт не выбран') + products.map((p) => option(p.id, p.name))
                 $('select[name="product_id"]').html(html)
+                onSuccess()
             },
             error: () => {
                 toast('Не удалось получить список продуктов', 'error')
             }
         })
-    })
+    }
 
     const queryReport = (id) => {
-        $(document).ready(() => {
-            $.ajax({
-                url: `/features/endpoints/report.php?id=${id}`,
-                method: 'GET',
-                success: (report) => {
-                    if (report) {
-                        fillReportForm(report)
-                    } else {
-                        $('#report-form').parent().html('<h3 class="page__title">Отчет не найден</h3>')
-                    }
-                },
-                error: () => {
-                    toast('Не удалось получить отчет', 'error') 
+        $.ajax({
+            url: `/features/endpoints/report.php?id=${id}`,
+            method: 'GET',
+            success: (report) => {
+                if (report) {
+                    queryProducts(() => fillReportForm(report))
+                } else {
+                    $('#report-form').parent().html('<h3 class="page__title">Отчет не найден</h3>')
                 }
-            })
+            },
+            error: () => {
+                toast('Не удалось получить отчет', 'error') 
+            }
         })
     }
 
@@ -139,7 +138,10 @@
         $.ajax({
             url: `/features/endpoints/update_report.php`,
             method: 'POST',
-            data,
+            data: {
+                ...data,
+                id: report_id
+            },
             success: (response) => {
                 window.location.href = `/report.php?id=${report_id}`
             },
