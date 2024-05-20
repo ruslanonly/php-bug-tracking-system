@@ -40,7 +40,7 @@
 <script>
     const addProduct = (data) => {
         $.ajax({
-            url: `/features/endpoints/add_product.php`,
+            url: `/api/add_product.php`,
             method: 'POST',
             data,
             success: (response) => {

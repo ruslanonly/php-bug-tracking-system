@@ -1,5 +1,5 @@
 <?php
-    include(dirname(__DIR__).'../../shared/lib/db/connect_database.php');
+    include(dirname(__DIR__).'/app/shared/lib/db/connect_database.php');
 
     $_GET["status"] = isset($_GET["status"]) ? $_GET["status"] :"";
     $_GET["problem"] = isset($_GET["problem"]) ? $_GET["problem"] :"";

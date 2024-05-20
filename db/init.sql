@@ -1,6 +1,14 @@
 -- init.sql
 USE bts_database;
 
+CREATE TABLE users (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  login varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,
+  role int NOT NULL,
+  CONSTRAINT unique_user UNIQUE (`login`, `password`)
+);
+
 CREATE TABLE product (
     id INT AUTO_INCREMENT,
     name VARCHAR(20) UNIQUE NOT NULL,

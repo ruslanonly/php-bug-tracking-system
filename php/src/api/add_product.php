@@ -1,5 +1,5 @@
 <?php
-    include(dirname(__DIR__).'../../shared/lib/db/connect_database.php');
+    include(dirname(__DIR__).'/app/shared/lib/db/connect_database.php');
     include(dirname(__DIR__).'../../shared/lib/error.php');
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {

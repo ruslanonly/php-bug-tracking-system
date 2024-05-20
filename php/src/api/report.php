@@ -1,5 +1,5 @@
 <?php
-    include(dirname(__DIR__).'../../shared/lib/db/connect_database.php');
+    include(dirname(__DIR__).'/app/shared/lib/db/connect_database.php');
 
     $report_id = $_GET['id'];
 

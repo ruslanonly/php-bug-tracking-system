@@ -40,7 +40,7 @@
     const query = () => {
         $(document).ready(() => {
             $.ajax({
-                url: '/features/endpoints/products.php',
+                url: '/api/products.php',
                 method: 'GET',
                 complete: (response) => {
                     const products = response.responseJSON
@@ -59,7 +59,7 @@
     
     const delete_product = (id) => {
         $.ajax({
-            url: `/features/endpoints/delete_product.php`,
+            url: `/api/delete_product.php`,
             method: 'POST',
             data: {
                 id

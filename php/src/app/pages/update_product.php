@@ -46,7 +46,7 @@
 
     const queryProduct = (id) => {
         $.ajax({
-            url: `/features/endpoints/product.php?id=${id}`,
+            url: `/api/product.php?id=${id}`,
             method: 'GET',
             success: (response) => {
                 const product = response
@@ -66,7 +66,7 @@
 
     const updateProduct = (data) => {
         $.ajax({
-            url: `/features/endpoints/update_product.php`,
+            url: `/api/update_product.php`,
             method: 'POST',
             data: {
                 ...data,

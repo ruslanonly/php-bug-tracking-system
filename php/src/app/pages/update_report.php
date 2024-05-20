@@ -96,7 +96,7 @@
 
     const queryProducts = (onSuccess) => {
         $.ajax({
-            url: '/features/endpoints/products.php',
+            url: '/api/products.php',
             method: 'GET',
             success: (products) => {
                 const html = option('', 'Продукт не выбран') + products.map((p) => option(p.id, p.name))
@@ -111,7 +111,7 @@
 
     const queryReport = (id) => {
         $.ajax({
-            url: `/features/endpoints/report.php?id=${id}`,
+            url: `/api/report.php?id=${id}`,
             method: 'GET',
             success: (report) => {
                 if (report) {
@@ -136,7 +136,7 @@
 
     const updateReport = (data) => {
         $.ajax({
-            url: `/features/endpoints/update_report.php`,
+            url: `/api/update_report.php`,
             method: 'POST',
             data: {
                 ...data,

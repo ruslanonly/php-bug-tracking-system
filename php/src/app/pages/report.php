@@ -92,7 +92,7 @@
     const query = (id) => {
         $(document).ready(() => {
             $.ajax({
-                url: `/features/endpoints/report.php?id=${id}`,
+                url: `/api/report.php?id=${id}`,
                 method: 'GET',
                 complete: (response) => {
                     const report = response.responseJSON
@@ -120,7 +120,7 @@
 
     const delete_report = (id) => {
         $.ajax({
-            url: `/features/endpoints/delete_report.php`,
+            url: `/api/delete_report.php`,
             method: 'POST',
             data: {
                 id

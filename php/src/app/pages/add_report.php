@@ -84,7 +84,7 @@
 
     $(document).ready(() => {
         $.ajax({
-            url: '/features/endpoints/products.php',
+            url: '/api/products.php',
             method: 'GET',
             success: (products) => {
                 const html = option('', 'Продукт не выбран') + products.map((p) => option(p.id, p.name))
@@ -98,7 +98,7 @@
 
     const addReport = (data) => {
         $.ajax({
-            url: `/features/endpoints/add_report.php`,
+            url: `/api/add_report.php`,
             method: 'POST',
             data,
             success: (response) => {

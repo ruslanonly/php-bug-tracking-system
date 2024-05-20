@@ -12,14 +12,14 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/shared/ui/layout.css">
-        <link rel="stylesheet" href="/pages/styles<?php echo str_replace('.php', '', $PHP_SELF); ?>.css">
+        <link rel="stylesheet" href="/app/shared/ui/layout.css">
+        <link rel="stylesheet" href="/app/pages/styles<?php echo str_replace('.php', '', $PHP_SELF); ?>.css">
         <title><?php echo isset($meta_info) ? $meta_info["title"] : "Layout Title"; ?></title>
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-        <script src="/shared/assets/js/jquery-3.7.1.min.js"></script>
-        <script src="/shared/assets/js/utils.js"></script>
-        <script src="/shared/assets/js/consts.js"></script>
+        <script src="/app/shared/assets/js/jquery-3.7.1.min.js"></script>
+        <script src="/app/shared/assets/js/utils.js"></script>
+        <script src="/app/shared/assets/js/consts.js"></script>
     </head>
     <body>
         <header class="header">

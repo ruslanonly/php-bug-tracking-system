@@ -144,7 +144,7 @@
             if (search) postfix += '?' + search
 
             $.ajax({
-                url: `/features/endpoints/reports.php?${search}`,
+                url: `/api/reports.php?${search}`,
                 method: 'GET',
                 complete: (response) => {
                     const reports = response.responseJSON
