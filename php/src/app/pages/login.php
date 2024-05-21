@@ -16,47 +16,34 @@
         <div class="tile">
             <div class="header-wrapper">
                 <h2 class="page__title">Логин</h2>
-                <a class="button button-link" href="/register">Регистрация</a>
+                <a class="button button-link" href="/register.php">Регистрация</a>
             </div>
             <form id="login__form" class="form">
                 <div class="form-item">
-                    <label for='email'>Почта *</label>
-                    <input class="input" type='text' name='email' required>
+                    <label for='login'>Логин *</label>
+                    <input class="input" type='text' name='login' required>
                 </div>
                 <div class="form-item">
                     <label for='password'>Пароль *</label>
                     <input class="input" type='password' name='password' required>
                 </div>
-                <button id="submit-button" class="button" disabled>Войти</button>
+                <button id="submit-button" class="button">Войти</button>
             </form>
         </div>
     </div>
 </div>
 <script>
-    $('#login__form .form-item input').on('input', function() {
-        const email = $('input[name="email"]').val()
-        const password =$('input[name="password"]').val()
-        $('#submit-button').attr('disabled', !(email && password))
-    })
     const login = (data) => {
+        console.log(data)
         $.ajax({
-            url: `/v1/login`,
+            url: `/api/auth/login.php`,
             method: 'POST',
             data,
             success: (response) => {
-                window.location.href = '/'
+                window.location.href = '/reports.php'
             },
             error: (response) => {
-                const errors = response.responseJSON
-                if (errors?.entries) {
-                    const entries = Object.entries(errors?.errors)
-                    entries.forEach((errorEntry) => {
-                        const errorField = errorEntry[0]
-                        const errorInfo = errorEntry[1]
-                        toast(errorInfo.message, 'error')
-                    })
-                }
-
+                toast('Не удалось войти в систему', 'error')
             }
         })
     }

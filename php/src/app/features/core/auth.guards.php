@@ -1,24 +1,10 @@
 <?php 
-include_once dirname(__FILE__) . '/../../core/domain/repositories.php';
-class ApplicantGuard {
+include_once dirname(__DIR__) . '/core/repositories/viewer-repository.php';
+class AuthGuard {
   function __construct(private ViewerRepository $viewerRepository) {}
   function canActivate() {
-    $role = $this->viewerRepository->getRole();
     $isAuth = $this->viewerRepository->isAuth();
-    if ($isAuth === true && $role === Role::Applicant) {
-      return;
-    }
-    header('Location: /login.php');
-    die();
-  }
-}
-
-class EmployerGuard {
-  function __construct(private ViewerRepository $viewerRepository) {}
-  function canActivate() {
-    $role = $this->viewerRepository->getRole();
-    $isAuth = $this->viewerRepository->isAuth();
-    if ($isAuth === true && $role === Role::Employer) {
+    if ($isAuth === true) {
       return;
     }
     header('Location: /login.php');

@@ -11,6 +11,4 @@
 
         return $_DB;
     }
-
-    $_DB = connectBTSDatabase();
 ?>
